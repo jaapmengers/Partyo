@@ -12,60 +12,20 @@
 </head>
 
 <body>
+	<script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script src="js/q.js"></script>
     <script src="js/script.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
 
 	<!--
 		Ideally these elements aren't created until it's confirmed that the 
 		client supports video/camera, but for the sake of illustrating the 
 		elements involved, they are created with markup (not JavaScript)
 	-->
-	<video id="video" width="640" height="480" autoplay></video>
-	<button id="snap">Snap Photo</button>
-	<canvas id="canvas" width="640" height="480"></canvas>
+	<video id="video" width="1024" height="768" autoplay></video>
+	<canvas id="canvas" width="1024" height="768"></canvas>
 
-	<div id="fb-root"></div>
-    <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId      : '231939803679691',
-          status     : true,
-          xfbml      : true
-        });
-
-       	FB.getLoginStatus(function(response) {
-       		console.log("test", response);
-	        if (response.status === 'connected') {
-	            // connected
-	        } else  {
-	            console.log("Login");
-	            login();
-	        }
-        });
-
-	    FB.api('/me', function(response) {
-	        console.log(response);
-	    });
-
-        function login(){
-	    	FB.login(function(response) {
-		        if (response.authResponse) {
-		            // connected
-		            return true;
-		        } else {
-		            return false;
-		        }
-    		});
-        }
-
-	};
-
-	(function(d, s, id){
-		var js, fjs = d.getElementsByTagName(s)[0];
-		if (d.getElementById(id)) {return;}
-		js = d.createElement(s); js.id = id;
-		js.src = "//connect.facebook.net/en_US/all.js";
-		fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
-    </script>
+	<div id="fb-root"></div>    
 </body>
 </html>
