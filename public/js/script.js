@@ -1,3 +1,9 @@
+something = new Promise(function(){});
+something.then(function(){
+	Console.log("Blaat");
+});
+
+
 // Put event listeners into place
 window.addEventListener("DOMContentLoaded", function() {
 	// Grab elements, create settings, etc.
@@ -31,5 +37,5 @@ window.addEventListener("DOMContentLoaded", function() {
 	// Trigger photo take
 	document.getElementById("snap").addEventListener("click", function() {
 		context.drawImage(video, 0, 0, 640, 480);
-	});	
+	});
 }, false);
