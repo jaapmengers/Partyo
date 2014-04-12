@@ -7,25 +7,63 @@
   <title>Partyo</title>
   <meta name="description" content="Partyo">
   <meta name="author" content="Jaap Mengers">
+  <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>  
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <style>
+    * {
+      margin:0px;
+      padding:0px;
+    }
 
+    body, html{ 
+      height:100%;
+    }
 
+    body {
+      padding: 10px;
+      -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+      -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+      box-sizing: border-box;  
+    }
+
+    .table {
+      width:100%;
+      height:100%;
+      display:table;
+    }
+
+  	.child{
+      width:100%;
+      height:100%;
+      background-color: red;
+      border-radius: 5px;
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+      font-size: 25em;
+      color:white;
+    }
+  </style>
+  <script>
+  $(document).ready(function(){
+
+  	var socket = io.connect();
+    socket.on('connect', function(){
+	  	$('#takePicture').click(function(){
+	  		socket.emit('request:takePicture');
+	  	});
+
+  	});
+  });
+  </script>
 </head>
 
 <body>
-	<script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
-    <script src="js/q.js"></script>
-    <script src="js/script.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-
-
-	<!--
-		Ideally these elements aren't created until it's confirmed that the 
-		client supports video/camera, but for the sake of illustrating the 
-		elements involved, they are created with markup (not JavaScript)
-	-->
-	<video id="video" width="1024" height="768" autoplay></video>
-	<canvas id="canvas" width="1024" height="768"></canvas>
-
-	<div id="fb-root"></div>    
+	<div class="table" id="takePicture">
+    <div class="child">
+      <span class="glyphicon glyphicon-camera"></span>
+    </div>
+  </div>
 </body>
 </html>

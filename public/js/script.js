@@ -64,22 +64,28 @@ window.addEventListener("DOMContentLoaded", function() {
 
 	function takePicture() {
 
-
+		console.log("Voor drawImage");
 		context.drawImage(video, 0, 0, video.width, video.height);
+		console.log("Na drawImage");
 
-
-		if ( XMLHttpRequest.prototype.sendAsBinary === undefined ) {
-		    XMLHttpRequest.prototype.sendAsBinary = function(string) {
-		        var bytes = Array.prototype.map.call(string, function(c) {
-		            return c.charCodeAt(0) & 0xff;
-		        });
-		        this.send(new Uint8Array(bytes).buffer);
-		    };
+		if (!XMLHttpRequest.prototype.sendAsBinary) {
+		  XMLHttpRequest.prototype.sendAsBinary = function (sData) {
+		    var nBytes = sData.length, ui8Data = new Uint8Array(nBytes);
+		    for (var nIdx = 0; nIdx < nBytes; nIdx++) {
+		      ui8Data[nIdx] = sData.charCodeAt(nIdx) & 0xff;
+		    }
+		    /* send as ArrayBufferView...: */
+		    this.send(ui8Data);
+		    /* ...or as ArrayBuffer (legacy)...: this.send(ui8Data.buffer); */
+		  };
 		}
 
 		var dataUrl = canvas.toDataURL("image/png");
+		console.log("canvas.toDataURL")
 		var encodedPng = dataUrl.substring(dataUrl.indexOf(',')+1,dataUrl.length);
+		console.log("Voor decoding");
 		var decodedPng = Base64Binary.decode(encodedPng);
+		console.log("Na decoding");
 
 		PostImageToFacebook(access_token, 'Is fissa', 'image/png', decodedPng, '');
 
@@ -87,6 +93,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
 	var socket = io.connect();
 	socket.on('connect', function(){
+		console.log("Take picture");
 		socket.on('receive:takePicture', takePicture);
 	});
 
@@ -115,11 +122,16 @@ function PostImageToFacebook( authToken, filename, mimeType, imageData, message 
     
     var xhr = new XMLHttpRequest();
     xhr.open( 'POST', 'https://graph.facebook.com/769234573088459/photos?access_token=' + authToken, true );
-    xhr.onload = xhr.onerror = function() {
-        console.log( xhr.responseText );
-    };
     xhr.setRequestHeader( "Content-Type", "multipart/form-data; boundary=" + boundary );
+		xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+		  	console.log("Request send");
+			}
+
+			alert("Test");
+		};
     xhr.sendAsBinary( formData );
+    xhr = null;
 }
 
 var Base64Binary = {
