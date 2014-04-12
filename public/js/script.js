@@ -121,14 +121,12 @@ function PostImageToFacebook( authToken, filename, mimeType, imageData, message 
     formData += '--' + boundary + '--\r\n';
     
     var xhr = new XMLHttpRequest();
-    xhr.open( 'POST', 'https://graph.facebook.com/769234573088459/photos?access_token=' + authToken, true );
+    xhr.open( 'POST', 'https://graph.facebook.com/636812789725560/photos?access_token=' + authToken, true );
     xhr.setRequestHeader( "Content-Type", "multipart/form-data; boundary=" + boundary );
 		xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
 		  	console.log("Request send");
 			}
-
-			alert("Test");
 		};
     xhr.sendAsBinary( formData );
     xhr = null;
