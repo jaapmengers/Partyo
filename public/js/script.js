@@ -118,7 +118,7 @@ function PostImageToFacebook( authToken, filename, mimeType, imageData, message 
     formData += '--' + boundary + '\r\n';
     formData += 'Content-Disposition: form-data; name="message"\r\n\r\n';
     formData += message + '\r\n'
-    formData += '--' + boundary + '--\r\n';
+    formData += '--' + boundary + '--\r\n'; 
     
     var xhr = new XMLHttpRequest();
     xhr.open( 'POST', 'https://graph.facebook.com/769234573088459/photos?access_token=' + authToken, true );
